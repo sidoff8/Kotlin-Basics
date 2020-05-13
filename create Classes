@@ -1,0 +1,69 @@
+Task: Create a class
+In this task, you create a new package and a class with some properties and a method.
+
+Step 1: Create a package
+Packages can help you keep your code organized.
+
+In the Project pane, under the Hello Kotlin project, right-click on the src folder.
+Select New > Package and call it example.myapp.
+Step 2: Create a class with properties
+Classes are defined with the keyword class, and class names by convention start with a capital letter.
+
+Right-click on the example.myapp package.
+Select New > Kotlin File / Class.
+Under Kind, select Class, and name the class Aquarium. IntelliJ IDEA includes the package name in the file and creates an empty Aquarium class for you.
+Inside the Aquarium class, define and initialize var properties for the width, height, and length (in centimeters). Initialize the properties with default values.
+package example.myapp
+
+class Aquarium {
+    var width: Int = 20
+    var height: Int = 40
+    var length: Int = 100
+}
+Under the hood, Kotlin automatically creates getters and setters for the properties you defined in the Aquarium class, so you can access the properties directly, for example, myAquarium.length.
+
+Note: If you declared these properties with val instead of var, the properties would be immutable. You could only set them once, and all the instances of Aquarium would have the same dimensions.
+
+Also note that IntelliJ IDEA underlines the name of each var in your code, but not each val. Kotlin coding style prefers immutable data when possible, so IntelliJ IDEA draws your attention to mutable data so you can minimize its use.
+
+Step 3: Create a main() function
+Create a new file called main.kt to hold the main() function.
+
+In the Project pane on the left, right-click on the example.myapp package.
+Select New > Kotlin File / Class.
+Under the Kind dropdown, keep the selection as File, and name the file main.kt. IntelliJ IDEA includes the package name, but doesn't include a class definition for a file.
+Define a buildAquarium() function and inside create an instance of Aquarium. To create an instance, reference the class as if it were a function, Aquarium(). This calls the constructor of the class and creates an instance of the Aquarium class, similar to using new in other languages.
+Define a main() function and call buildAquarium().
+package example.myapp
+
+fun buildAquarium() {
+    val myAquarium = Aquarium()
+}
+
+fun main() {
+    buildAquarium()
+}
+Step 4: Add a method
+In the Aquarium class, add a method to print the aquarium's dimension properties.
+    fun printSize() {
+        println("Width: $width cm " +
+                "Length: $length cm " +
+                "Height: $height cm ")
+    }
+In main.kt, in buildAquarium(), call the printSize() method on myAquarium.
+fun buildAquarium() {
+    val myAquarium = Aquarium()
+    myAquarium.printSize()
+}
+Run your program by clicking the green triangle next to the main() function. Observe the result.
+⇒ Width: 20 cm Length: 100 cm Height: 40 cm 
+In buildAquarium(), add code to set the height to 60 and print the changed dimension properties.
+fun buildAquarium() {
+    val myAquarium = Aquarium()
+    myAquarium.printSize()
+    myAquarium.height = 60
+    myAquarium.printSize()
+}
+Run your program and observe the output.
+⇒ Width: 20 cm Length: 100 cm Height: 40 cm 
+Width: 20 cm Length: 100 cm Height: 60 cm 
