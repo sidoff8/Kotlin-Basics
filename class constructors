@@ -1,0 +1,147 @@
+Task: Add class constructors
+In this task, you create a constructor for the class, and continue working with properties.
+
+Step 1: Create a constructor
+In this step, you add a constructor to the Aquarium class you created in the first task. In the earlier example, every instance of Aquarium is created with the same dimensions. You can change the dimensions once it is created by setting the properties, but it would be simpler to create it the correct size to begin with.
+
+In some programming languages, the constructor is defined by creating a method within the class that has the same name as the class. In Kotlin, you define the constructor directly in the class declaration itself, specifying the parameters inside parentheses as if the class was a method. As with functions in Kotlin, those parameters can include default values.
+
+In the Aquarium class you created earlier, change the class definition to include three constructor parameters with default values for length, width and height, and assign them to the corresponding properties.
+class Aquarium(length: Int = 100, width: Int = 20, height: Int = 40) {
+   // Dimensions in cm
+   var length: Int = length
+   var width: Int = width
+   var height: Int = height
+...
+}
+The more compact Kotlin way is to define the properties directly with the constructor, using var or val, and Kotlin also creates the getters and setters automatically. Then you can remove the property definitions in the body of the class.
+class Aquarium(var length: Int = 100, var width: Int = 20, var height: Int = 40) {
+...
+}
+When you create an Aquarium object with that constructor, you can specify no arguments and get the default values, or specify just some of them, or specify all of them and create a completely custom-sized Aquarium. In the buildAquarium() function, try out different ways of creating an Aquarium object using named parameters.
+fun buildAquarium() {
+    val aquarium1 = Aquarium()
+    aquarium1.printSize()
+    // default height and length
+    val aquarium2 = Aquarium(width = 25)
+    aquarium2.printSize()
+    // default width
+    val aquarium3 = Aquarium(height = 35, length = 110)
+    aquarium3.printSize()
+    // everything custom
+    val aquarium4 = Aquarium(width = 25, height = 35, length = 110)
+    aquarium4.printSize()
+}
+Run the program and observe the output.
+⇒ Width: 20 cm Length: 100 cm Height: 40 cm 
+Width: 25 cm Length: 100 cm Height: 40 cm 
+Width: 20 cm Length: 110 cm Height: 35 cm 
+Width: 25 cm Length: 110 cm Height: 35 cm 
+Notice that you didn't have to overload the constructor and write a different version for each of these cases (plus a few more for the other combinations). Kotlin creates what is needed from the default values and named parameters.
+
+Step 2: Add init blocks
+The example constructors above just declare properties and assign the value of an expression to them. If your constructor needs more initialization code, it can be placed in one or more init blocks. In this step, you add some init blocks to Aquarium class.
+
+In the Aquarium class, add an init block to print that the object is initializing, and a second block to print the volume in liters.
+class Aquarium (var length: Int = 100, var width: Int = 20, var height: Int = 40) {
+    init {
+        println("aquarium initializing")
+    }
+    init {
+        // 1 liter = 1000 cm^3
+        println("Volume: ${width * length * height / 1000} l")
+    }
+}
+Run the program and observe the output.
+aquarium initializing
+Volume: 80 l
+Width: 20 cm Length: 100 cm Height: 40 cm 
+aquarium initializing
+Volume: 100 l
+Width: 25 cm Length: 100 cm Height: 40 cm 
+aquarium initializing
+Volume: 77 l
+Width: 20 cm Length: 110 cm Height: 35 cm 
+aquarium initializing
+Volume: 96 l
+Width: 25 cm Length: 110 cm Height: 35 cm 
+Notice that the init blocks are executed in the order in which they appear in the class definition, and all of them are executed when the constructor is called.
+
+Note: Parameters of the primary constructor can be used in the initializer blocks. Any properties used in initializer blocks must be declared previously.
+
+Step 3: Learn about secondary constructors
+In this step, you learn about secondary constructors and add one to your class. In addition to a primary constructor, which can have one or more init blocks, a Kotlin class can also have one or more secondary constructors to allow constructor overloading, that is, constructors with different arguments.
+
+Note: Kotlin coding style says each class should have only one constructor, using default values and named parameters. This is because using multiple constructors leads to more code paths, and the likelihood that one or more paths will go untested. Before writing a secondary constructor, consider whether a factory function would work instead, to keep the class definition clean.
+
+Note: Every secondary constructor must call the primary constructor first, either directly using this(), or indirectly by calling another secondary constructor. This means that any init blocks in the primary will be called for all constructors, and all the code in the primary constructor will be executed first.
+
+In the Aquarium class, add a secondary constructor that takes a number of fish as its argument, using the constructor keyword. Create a val tank property for the calculated volume of the aquarium in liters based on the number of fish. Assume 2 liters (2,000 cm^3) of water per fish, plus a little extra room so the water doesn't spill.
+constructor(numberOfFish: Int) : this() {
+    // 2,000 cm^3 per fish + extra room so water doesn't spill
+    val tank = numberOfFish * 2000 * 1.1
+}
+Inside the secondary constructor, keep the length and width (which were set in the primary constructor) the same, and calculate the height needed to make the tank the given volume.
+    // calculate the height needed
+    height = (tank / (length * width)).toInt()
+In the buildAquarium() function, add a call to create an Aquarium using your new secondary constructor. Print the size and volume.
+fun buildAquarium() {
+    val aquarium6 = Aquarium(numberOfFish = 29)
+    aquarium6.printSize()
+    println("Volume: ${aquarium6.width * aquarium6.length * aquarium6.height / 1000} l")
+}
+Run your program and observe the output.
+⇒ aquarium initializing
+Volume: 80 l
+Width: 20 cm Length: 100 cm Height: 31 cm 
+Volume: 62 l
+Notice that the volume is printed twice, once by the init block in the primary constructor before the secondary constructor is executed, and once by the code in buildAquarium().
+
+You could have included the constructor keyword in the primary constructor, too, but it's not necessary in most cases.
+
+Step 4: Add a new property getter
+In this step, you add an explicit property getter. Kotlin automatically defines getters and setters when you define properties, but sometimes the value for a property needs to be adjusted or calculated. For example, above, you printed the volume of the Aquarium. You can make the volume available as a property by defining a variable and a getter for it. Because volume needs to be calculated, the getter needs to return the calculated value, which you can do with a one-line function.
+
+In the Aquarium class, define an Int property called volume, and define a get() method that calculates the volume in the next line.
+val volume: Int
+    get() = width * height * length / 1000  // 1000 cm^3 = 1 l
+Remove the init block that prints the volume.
+Remove the code in buildAquarium() that prints the volume.
+In the printSize() method, add a line to print the volume.
+fun printSize() {
+    println("Width: $width cm " +
+            "Length: $length cm " +
+            "Height: $height cm "
+    )
+    // 1 l = 1000 cm^3
+    println("Volume: $volume l")
+}
+Run your program and observe the output.
+⇒ aquarium initializing
+Width: 20 cm Length: 100 cm Height: 31 cm 
+Volume: 62 l
+The dimensions and volume are the same as before, but the volume is only printed once after the object is fully initialized by both the primary constructor and the secondary constructor.
+
+Step 5: Add a property setter
+In this step, you create a new property setter for the volume.
+
+In the Aquarium class, change volume to a var so it can be set more than once.
+Add a setter for the volume property by adding a set() method below the getter, which recalculates the height based on the supplied amount of water. By convention, the name of the setter parameter is value, but you can change it if you prefer.
+var volume: Int
+    get() = width * height * length / 1000
+    set(value) {
+        height = (value * 1000) / (width * length)
+    }
+In buildAquarium(), add code to set the volume of the Aquarium to 70 liters. Print the new size.
+fun buildAquarium() {
+    val aquarium6 = Aquarium(numberOfFish = 29)
+    aquarium6.printSize()
+    aquarium6.volume = 70
+    aquarium6.printSize()
+}
+Run your program again and observe the changed height and volume.
+⇒ aquarium initialized
+Width: 20 cm Length: 100 cm Height: 31 cm 
+Volume: 62 l
+Width: 20 cm Length: 100 cm Height: 35 cm 
+Volume: 70 l
