@@ -1,0 +1,110 @@
+In this task, you learn more about functions in Kotlin, and more about the very useful when conditional expression.
+
+Step 1: Create some functions
+In this step, you put together some of what you've learned and create functions with different types. You can replace the contents of Hello.kt with this new code.
+
+Write a function called feedTheFish() that calls randomDay() to get a random day of the week. Use a string template to print a food for the fish to eat that day. For now, the fish eat the same food every day.
+fun feedTheFish() {
+    val day = randomDay()
+    val food = "pellets"
+    println ("Today is $day and the fish eat $food")
+}
+
+fun main(args: Array<String>) {
+    feedTheFish()
+}
+Write the randomDay() function to pick a random day from an array and return it.
+The nextInt() function takes an integer limit, which limits the number from Random() to 0 through 6 to match the week array.
+
+fun randomDay() : String {
+    val week = arrayOf ("Monday", "Tuesday", "Wednesday", "Thursday",
+            "Friday", "Saturday", "Sunday")
+    return week[Random().nextInt(week.size)]
+}
+The Random() and nextInt() functions are defined in java.util.*. At the top of the file, add the needed import:
+import java.util.*    // required import
+Tip: Before you add the import, Random() gives an unresolved reference error in IntelliJ IDEA. To add the import automatically, click on Random(), then press Alt+Enter (Option+Enter on a Mac). Select Import > java.util.Random.
+
+Run your program, and check the output.
+⇒ Today is Tuesday and the fish eat pellets
+Step 2: Use a when expression
+Extending this further, change the code to pick different food for different days using a when expression. The when statement is similar to switch in other programming languages, but when automatically breaks at the end of each branch. It also makes sure your code covers all the branches if you are checking an enum.
+
+In Hello.kt, add a function called fishFood() that takes a day as a String and returns the fish's food for the day as a String. Use when(), so that each day the fish gets a specific food. Run your program a few times to see different outputs.
+fun fishFood (day : String) : String {
+    var food = ""
+    when (day) {
+        "Monday" -> food = "flakes"
+        "Tuesday" -> food = "pellets"
+        "Wednesday" -> food = "redworms"
+        "Thursday" -> food = "granules"
+        "Friday" -> food = "mosquitoes"
+        "Saturday" -> food = "lettuce"
+        "Sunday" -> food = "plankton"
+    }
+    return food
+}
+
+fun feedTheFish() {
+    val day = randomDay()
+    val food = fishFood(day)
+
+    println ("Today is $day and the fish eat $food")
+}
+⇒ Today is Thursday and the fish eat granules
+Add a default branch to the when expression using else. For testing, to make sure the default is taken sometimes in your program, remove the Tuesday and Saturday branches.
+
+Having a default branch ensures that food gets a value before being returned, so it doesn't need to be initialized anymore. Because the code now assigns a string to food only once, you can declare food with val instead of var.
+fun fishFood (day : String) : String {
+    val food : String
+    when (day) {
+        "Monday" -> food = "flakes"
+        "Wednesday" -> food = "redworms"
+        "Thursday" -> food = "granules"
+        "Friday" -> food = "mosquitoes"
+        "Sunday" -> food = "plankton"
+        else -> food = "nothing"
+    }
+    return food
+}
+Because every expression has a value, you can make this code a little more concise. Return the value of the when expression directly, and eliminate the food variable. The value of the when expression is the value of the last expression of the branch that satisfied the condition.
+fun fishFood (day : String) : String {
+    return when (day) {
+        "Monday" -> "flakes"
+        "Wednesday" -> "redworms"
+        "Thursday" -> "granules"
+        "Friday" -> "mosquitoes"
+        "Sunday" -> "plankton"
+        else -> "nothing"
+    }
+}
+The final version of your program looks something like the code below.
+
+import java.util.*    // required import
+
+fun randomDay() : String {
+    val week = arrayOf ("Monday", "Tuesday", "Wednesday", "Thursday",
+        "Friday", "Saturday", "Sunday")
+    return week[Random().nextInt(week.size)]
+}
+
+fun fishFood (day : String) : String {
+    return when (day) {
+        "Monday" -> "flakes"
+        "Wednesday" -> "redworms"
+        "Thursday" -> "granules"
+        "Friday" -> "mosquitoes"
+        "Sunday" -> "plankton"
+        else -> "nothing"
+    }
+}
+
+fun feedTheFish() {
+    val day = randomDay()
+    val food = fishFood(day)
+    println ("Today is $day and the fish eat $food")
+}
+
+fun main(args: Array<String>) {
+    feedTheFish()
+}
