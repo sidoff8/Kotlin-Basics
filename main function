@@ -1,0 +1,59 @@
+ Task: Explore the main() function
+In this task, you create a Kotlin program and learn about the main() function, as well as how to pass arguments to a program from the command line.
+
+You may remember the printHello() function that you entered into the REPL in a previous codelab:
+
+fun printHello() {
+    println ("Hello World")
+}
+
+printHello()
+⇒ Hello World
+You define functions using the fun keyword, followed by the name of the function. As with other programming languages, the parentheses () are for function arguments, if any. Curly braces {} frame the code for the function. There is no return type for this function, because it doesn't return anything.
+
+Step 1: Create a Kotlin file
+Open IntelliJ IDEA.
+The Project pane on the left in IntelliJ IDEA shows a list of your project files and folders. Find and right-click the src folder under Hello Kotlin. (You should already have the Hello Kotlin project from the previous codelab.)
+Select New > Kotlin File / Class.
+Keep Kind as File, and name the file Hello.
+Click OK.
+There is now a file in the src folder called Hello.kt.
+
+
+
+Step 2: Add code and run your program
+As with other languages, the Kotlin main() function specifies the entry point for execution. Any command line arguments are passed as an array of strings.
+
+Type or paste the following code into the Hello.kt file:
+fun main(args: Array<String>) {
+    println("Hello, world!")
+}
+Tip: As of Kotlin 1.3, if your main() function doesn't use any parameters, you don't need to define args.
+
+Like your earlier printHello() function, this function has no return statement. Every function in Kotlin returns something, even when nothing is explicitly specified. So a function like this main() function returns a type kotlin.Unit, which is Kotlin's way of saying no value.
+
+Note: When a function returns kotlin.Unit, you don't have to specify it explicitly. This is different from some other languages, where you have to explicitly say that you are returning nothing.
+
+To run your program, click the green triangle to the left of the main() function. Select Run 'HelloKt' from the menu.
+IntelliJ IDEA compiles the program and runs it. The results appear in a log pane at the bottom, as shown below.
+
+
+Java programmers: If you're using a previously installed version of IntelliJ IDEA instead of installing a fresh copy, at this point you may have problems accessing the Kotlin compiler. Be sure your project is referring to the correct version of the JDK. See this discussion on Stack Overflow and the Change project SDK documentation for IntelliJ IDEA.
+
+Step 3: Pass arguments to main()
+Because you are running your program from IntelliJ IDEA and not from the command line, you need to specify any arguments to the program a little differently.
+
+Select Run > Edit Configurations. The Run/Debug Configurations window opens.
+Type Kotlin! in the Program arguments field.
+Click OK.
+
+
+Step 4: Change the code to use a string template
+A string template inserts a variable or expression into a string, and $ specifies that part of the string will be a variable or expression. Curly braces {} frame the expression, if any.
+
+In Hello.kt, change the greeting message to use the first argument passed into the program, args[0], instead of "world".
+fun main(args: Array<String>) {
+    println("Hello, ${args[0]}")
+}
+Run the program, and the output includes the argument you specified.
+⇒ Hello, Kotlin!
